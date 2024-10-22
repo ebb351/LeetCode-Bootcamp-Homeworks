@@ -1,0 +1,49 @@
+runtime 0ms (100%)
+memory 17 MB (84%)
+
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int numRows = matrix.size();
+        int numCols = matrix.empty() ? 0 : matrix[0].size(); 
+        bool row1Flag = false;
+
+        //flag rows and cols that need to be zeroed out in place in row 0/col 0
+        for (int row = 0; row < numRows; row++){
+            for (int col = 0; col < numCols; col++){
+                if (matrix[row][col] == 0){
+                    matrix[0][col] = 0;
+                    if (row > 0){
+                        matrix[row][0] = 0;
+                    }else{
+                        row1Flag = true;
+                    }
+                }
+            }
+        }
+
+        //for all cells except in first row/col, if flag raised, make 0
+        for (int row = 1; row < numRows; row++){
+            for (int col = 1; col < numCols; col++){
+                if (matrix[0][col] == 0 || matrix[row][0] == 0){
+                    matrix[row][col] = 0;
+                }
+            }
+        }
+
+        //if col 0 flag is raised, zero out col (have to do separately from row because we had to create separate var to store row indicator - can't have 2 in one cell)
+        if (matrix[0][0] == 0){
+            for (int row = 0; row < numRows; row++){
+                matrix[row][0] = 0;
+            }
+        }
+
+        //if row 0 flag is raised, 0 out row
+        if (row1Flag){
+            for (int col = 0; col < numCols; col++){
+                matrix[0][col] = 0;
+
+            }
+        } 
+    }
+};
