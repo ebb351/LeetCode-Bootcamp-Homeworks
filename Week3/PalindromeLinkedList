@@ -1,0 +1,41 @@
+//3ms runtime (98.33%)
+//116.80 MB memory (91.22%)
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        //find middle
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while (fast != nullptr && fast->next != nullptr){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        //reverse 2nd half
+        ListNode* prev = nullptr;
+        ListNode* nextNode = nullptr;
+    
+        while (slow != nullptr){
+            nextNode = slow->next;
+            slow->next = prev;
+            prev = slow;
+            slow = nextNode;
+        }
+
+        //compare halves
+        ListNode* firstHalf = head;
+        ListNode* secondHalf = prev;
+
+        while (secondHalf != nullptr){
+            if (firstHalf->val != secondHalf->val){
+                return false;
+            }
+            firstHalf = firstHalf->next;
+            secondHalf = secondHalf->next;
+        }
+        return true;
+
+
+    }
+};
