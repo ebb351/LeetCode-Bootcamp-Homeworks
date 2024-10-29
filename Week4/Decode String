@@ -1,0 +1,44 @@
+#runtime 0ms (100%)
+#memory 11.63 MB (65%)
+
+class Solution(object):
+    def decodeString(self, s):
+        i = 0
+
+        while i < len(s):
+            curr = s[i]
+
+            if curr.isdigit():
+                currDig = ""
+                while i < len(s) and s[i].isdigit():
+                    currDig += s[i]
+                    i += 1
+                kStack.append(int(currDig))
+
+            elif curr.isalpha():
+                currS = ""
+                while i < len(s) and s[i].isalpha():
+                    currS += s[i]
+                    i += 1
+                if sStack:
+                    sStack[-1] += currS
+                else:
+                    output += currS
+            
+            elif curr == '[':
+                sStack.append("")
+                i+=1
+
+            elif curr == ']':
+                num = kStack.pop()
+                sub = sStack.pop() * num
+                if not sStack:
+                    output += sub
+                else:
+                    sStack[-1] += sub
+                i += 1
+        
+        while sStack:
+            output += sStack.pop(0)
+
+        return output
