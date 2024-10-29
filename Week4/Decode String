@@ -42,3 +42,33 @@ class Solution(object):
             output += sStack.pop(0)
 
         return output
+
+#alternative solution using only one stack:
+#runtime 1ms (18%)
+#memory 11.78 MB (30%)
+class Solution(object):
+    def decodeString(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        stack = []
+
+        for i in range(len(s)):
+            if s[i] != ']':
+                stack.append(s[i])
+            else:
+                sub = ""
+                while stack[-1] != '[':
+                    sub = stack.pop() + sub
+                stack.pop() #remove closing brace
+                num = ""
+                while stack and stack[-1].isdigit():
+                    num = stack.pop() + num
+                sub = int(num)*sub
+                stack.append(sub)
+        output = ""
+        while stack:
+            output = stack.pop() + output
+        
+        return output
